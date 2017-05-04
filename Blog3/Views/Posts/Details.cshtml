@@ -1,0 +1,301 @@
+﻿@model Blog3.Models.Post
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Clean Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="~/css/clean-blog.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image:url('/img/bk-tech.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>@Html.DisplayFor(model => model.Title)</h1>
+                        <hr />
+                        <span class="subheading">A Tech Blog by Wahid H. Joudrey</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })|
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    <div>
+        <dl class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <dd>
+
+                @if (Model.MediaUrl != null)
+                {
+                    <img src="@Url.Content(Model.MediaUrl)" height="400" width="400" alt="image">
+                }
+            </dd>
+
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+
+
+            <dd>
+                @Html.Raw(Model.TextBody)
+            </dd>
+
+
+
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+        </dl>
+
+
+    </div>
+
+
+    <hr />
+
+    @using (Html.BeginForm("Create", "Comments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+
+    {
+
+
+        @Html.AntiForgeryToken()
+
+        @*<div class="container">
+                <!-- HTML Codes by HTMLCodes.ws -->
+                <style type="text/css">
+                    .html-marquee {
+                        align-content: center;
+                        height: 50px;
+                        width: 900px;
+                        background-color: #FFFFFF;
+                        font-family: Cursive;
+                        font-size: 21pt;
+                        color: black;
+                        font-style: italic;
+                        font-weight: bold;
+                        border-width: 0;
+                        border-style: dashed;
+                        border-color: #ff0000;
+                    }
+                </style>
+                <marquee class="html-marquee" direction="left"
+                         behavior="scroll"
+                         scrollamount="8">Enter Your Comments Belows......</marquee>
+
+                <!-- HTML Codes by Quackit.com -->
+                <style type="text/css">
+                    textarea.html-text-box {
+                        background-color: whitesmoke;
+                        background-image: url(https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwjkiuOlhLPSAhUDySYKHaR6AJYQjRwIBw&url=http%3A%2F%2Fwww.planwallpaper.com%2Fbackground-images&psig=AFQjCNEhMYM2JaHJ8WAPInxbWXO0D1pE-A&ust=1488379619713578);
+                        background-repeat: repeat;
+                        background-attachment: scroll;
+                        border-width: 6;
+                        border-style: double;
+                        border-color: #0000FF;
+                        font-family: Helvetica;
+                        font-size: 14pt;
+                        color: #000033;
+                    }
+
+                    input.html-text-box {
+                        background-color: #FFFFFF;
+                        font-family: Helvetica;
+                        font-size: 14pt;
+                        color: #000033;
+                    }
+                </style>
+
+
+
+                <form method="post" action="http://">
+                    <textarea name="TextBody" cols="150" rows="5" class="html-text-box"></textarea>
+                    <br><input input type="hidden" name="PostId" value="@Model.Id" />
+                    <input type="submit" />
+                    <input type="reset" value="Reset">
+                </form>
+            </div>*@
+
+
+        <hr />
+
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="w-box blog-post">
+                    <div class="comments-wr">
+                        @*<h3 class="section-title">Comments</h3>*@
+                        <div class="well">
+                            <h4>Leave a Comment:</h4>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form class="form-light" action="http://" method="post" role="form">
+                                    <div class="form-group">
+                                        @*@Html.AntiForgeryToken()*@
+                                        <textarea class="form-control" rows="3" name="TextBody" placeholder="Write you comment here..."></textarea>
+                                        <br /><input type="hidden" name="PostId" value="@Model.Id" />
+                                        @*<input type="hidden" name="slug" value="@Model.Slug" />*@
+                                    </div>
+                                    <button type="submit">Send comment</button>
+                                    <input type="reset" value="Reset">
+                                    <span class="clearfix"></span>
+
+                                </form>
+                            }
+                            else
+                            {
+                                <span>
+                                    Please log in to post a comment.
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+    <hr />
+
+
+    @foreach (var item in Model.Comments)
+    {
+        <div class="comment-container">
+
+            <div class="avatar"> <img src="@Url.Action("UserPhotos", "Home" )" height="48" width="48" /> </div>
+
+            @*<img src="@Url.Action("UserPhotos", "Home" )" height="48" width="48" />*@
+
+            <div class="comment-entry" id="comment-416746">
+
+                <p>@item.TextBody</p>
+
+                @*<div class="reply">
+                        <a rel="nofollow"
+                           class="comment-reply-link"
+                           href="@Url.Action("Details","Posts",new { Slug = item.Slug})">Reply</a>
+                    </div> /.reply*@
+
+            </div><!-- /comment-entry -->
+
+            <div class="comment-head">
+
+                <span class="name"><a href="@Url.Action("Index","Home")" rel="external nofollow" class="url">Posted by:  @User.Identity.Name @item.Author.FirstName , @item.Author.LastName</a></span>
+                <br />
+                <span class="date">on: @item.Created</span>
+
+
+            </div><!-- /.comment-head -->
+
+
+        </div>
+
+        <hr />
+    }
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://www.twitter.com">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.github.com">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- jQuery -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="~/js/jqBootstrapValidation.js"></script>
+    <script src="~/js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="~/js/clean-blog.min.js"></script>
+
+</body>
+
+
+
+
+
+
+
+</html>

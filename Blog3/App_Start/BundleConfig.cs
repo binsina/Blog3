@@ -2,6 +2,7 @@
 using System.Web.Optimization;
 
 namespace Blog3
+
 {
     public class BundleConfig
     {
@@ -24,7 +25,7 @@ namespace Blog3
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/BlueNav.css",
                       "~/Content/site.css"));
         }
     }

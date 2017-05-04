@@ -1,27 +1,85 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using Blog3.Models;
+using  Blog3.Models;
+using System.Web.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Web.Helpers;
+using System.Net.Mail;
+using System.Net;
 
-namespace Blog3
+namespace  Blog3
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+
+            // SendGrid email code.  Some people had trouble with SendGrid
+            //dynamic sg = new SendGridAPIClient(
+            //      WebConfigurationManager.AppSettings["SendGridAPIKey"]);
+
+            //Email from = new Email(WebConfigurationManager.AppSettings["ContactEmail"]);
+            //Email to = new Email(message.Destination);
+
+            //Content content = new Content("text/plain", message.Body);
+
+            //Mail mail = new Mail(from, message.Subject, to, content);
+
+            //dynamic response = await sg.client.mail.send.post(requestBody: mail.Get());
+
+            //Send email with Gmail with a separate method
+            SendViaGmail(message);
+        }
+
+        private void SendViaGmail(IdentityMessage message)
+        {
+            // Example mail code
+            try
+            {
+                var smtp = new SmtpClient
+                {
+                    Host = WebConfigurationManager.AppSettings["EmailHost"],
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new System.Net.NetworkCredential(WebConfigurationManager.AppSettings["EmailSender"],
+                    WebConfigurationManager.AppSettings["EmailSenderPassword"])
+                };
+
+                // Configure your credentials
+
+                // Build your message
+                MailMessage mail = new MailMessage();
+                // Configure it
+                mail.To.Add(message.Destination);
+                mail.From = new MailAddress("binsina9@gmail.com", "wahid H J");
+                mail.Subject = message.Subject;
+                mail.Body = message.Body;
+                // Enable if you are sending HTML content
+                mail.IsBodyHtml = false;
+
+                // Send your message
+                smtp.Send(mail);
+
+            }
+            catch (Exception ex)
+            {
+                // Something went wrong sending your message; Handle accordingly                
+            }
         }
     }
+
+
+
 
     public class SmsService : IIdentityMessageService
     {
@@ -40,7 +98,7 @@ namespace Blog3
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -76,12 +134,12 @@ namespace Blog3
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
-            manager.EmailService = new EmailService();
+            //manager.EmailService = new PersonalEmail();
             manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
@@ -106,4 +164,8 @@ namespace Blog3
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+
+   
+
 }

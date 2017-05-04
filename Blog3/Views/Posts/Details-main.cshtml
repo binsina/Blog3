@@ -1,0 +1,104 @@
+﻿@model Blog3.Models.Post
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextBody)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.TextBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(Model => Model.MediaUrl)
+        </dt>
+
+        <dd>
+
+            @if (Model.MediaUrl != null)
+            {
+                <img src="@Url.Content(Model.MediaUrl)" height="100" alt="image">
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Slug)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Slug)
+        </dd>
+
+    </dl>
+</div>
+
+
+
+<div>
+    @using (Html.BeginForm("Create", "Comments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+       
+        <input type="hidden" name="PostId" value="@Model.Id" />
+        <textarea name="TextBody"></textarea>
+        <input type="submit" />
+    }
+</div>
+
+@foreach (var item in Model.Comments)
+{
+    <div>
+    <ul>
+
+        <li>Posted by:@item.AuthorId at @item.Created </li>
+        <li>@item.TextBody</li>
+    </ul>
+        </div>
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

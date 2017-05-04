@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Blog3
+namespace  Blog3
 {
     public class RouteConfig
     {

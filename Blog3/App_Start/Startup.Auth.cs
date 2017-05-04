@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using Blog3.Models;
+using  Blog3.Models;
 
-namespace Blog3
+namespace  Blog3
 {
     public partial class Startup
     {
@@ -50,19 +50,19 @@ namespace Blog3
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "UZ5kBKgYIcLxIKNOHgfekaVc5",
+               consumerSecret: "ZL9nsIxYgYmQfRoiiyCccTX2YBV2Kj9o7xaVM8nc3nJMn77DpY");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "178240822677044",
+               appSecret: "388623bda4ad8b19f75f7f7e329e35b9");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "860432399127-n7jmi6k1unqv7silnk2310469bfpeq82.apps.googleusercontent.com",
+                ClientSecret = "yeltBbyBGYvHQUyw1-SHW-z-"
+            });
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<h3>@Html.ActionLink("Create New User-Role", "Create", "Role")</h3>
+
+@*<h3>Available Roles For Application</h3>*@
+
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
+<table>
+    <tr>
+        <th class="c">
+            Available Roles For Application
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="c">
+                @item.Name
+            </td>
+        </tr>
+    }
+</table>

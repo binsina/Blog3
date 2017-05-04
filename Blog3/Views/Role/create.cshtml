@@ -1,0 +1,47 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
+
+
+@using (Html.BeginForm())
+{
+    <table id="tbrole">
+        <tr>
+            <th >Enter Role To be Created:</th>
+            </tr>
+        <tr>
+            <td >
+                @Html.EditorFor(m => m.Name)
+            </td>
+        </tr>
+    </table>
+    <br />
+   
+
+    <input type="submit" value="Create Role" />
+}
